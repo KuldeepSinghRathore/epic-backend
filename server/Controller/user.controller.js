@@ -5,6 +5,10 @@ const findUserByEmail = async (email) => {
   const user = await User.findOne({ email })
   return user
 }
+const comparePassword = async (fromBody, fromDb) => {
+  let matchPass = await bcrypt.compare(fromBody.password, fromDb.password)
+  return matchPass
+}
 // loginUser
 const loginUser = async (req, res) => {
   try {
@@ -20,11 +24,11 @@ const loginUser = async (req, res) => {
       })
     }
     // comparing password
-    let matchPass = await bcrypt.compare(
-      userFromBody.password,
-      userFromDb.password
-    )
-    if (!matchPass) {
+    // let matchPass = await bcrypt.compare(
+    //   userFromBody.password,
+    //   userFromDb.password
+    // )
+    if (!comparePassword(userFromBody, userFromDb)) {
       return res.status(401).json({
         success: false,
         message: "Password is incorrect",
@@ -78,6 +82,7 @@ const signupUser = async (req, res) => {
           email,
           password: hash,
         })
+        // saving New user
         const saveNewUser = await newUser.save()
 
         res.json({
