@@ -1,16 +1,36 @@
 const express = require("express")
 const app = express()
-const morgan = require("morgan")
 const dotenv = require("dotenv")
-dotenv.config()
+const morgan = require("morgan")
+const cors = require("cors")
+// imported middleware
+
+const { notFound } = require("./Middlewares/notFound")
+const { errorHandler } = require("./Middlewares/errorHandler")
 const { connectDB } = require("./Database/ConnectDb")
+// imported routes
+const userRouter = require("./Routes/auth.route")
+
+// middlewares
+dotenv.config()
+app.use(morgan("common"))
+app.use(express.json())
+app.use(cors())
 
 const PORT = process.env.PORT || 8000
+
+// initialize database connection
 connectDB()
+
+// routes
+app.use("/user", userRouter)
+
 app.get("/", (req, res) => {
   res.send("Hello World")
 })
-
+app.use(notFound)
+app.use(errorHandler)
 app.listen(PORT, () => {
+  console.log(process.env.jwtSecret)
   console.log(`Server is running on port ${PORT}`)
 })
