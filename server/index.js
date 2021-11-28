@@ -8,6 +8,7 @@ const { notFound } = require("./Middlewares/notFound")
 const { errorHandler } = require("./Middlewares/errorHandler")
 const { connectDB } = require("./Database/ConnectDb")
 // imported routes
+const productRouter = require("./Routes/product.routes")
 const userRouter = require("./Routes/auth.route")
 // middlewares
 dotenv.config()
@@ -18,6 +19,7 @@ const PORT = process.env.PORT || 8000
 // initialize database connection
 connectDB()
 // routes
+app.use("/api/products", productRouter)
 app.use("/user", userRouter)
 app.get("/", (req, res) => {
   res.send("Hello World")
