@@ -10,6 +10,7 @@ const { connectDB } = require("./Database/ConnectDb")
 // imported routes
 const productRouter = require("./Routes/product.routes")
 const userRouter = require("./Routes/auth.route")
+const cartRouter = require("./Routes/cart.route")
 // middlewares
 dotenv.config()
 app.use(morgan("common"))
@@ -20,7 +21,9 @@ const PORT = process.env.PORT || 8000
 connectDB()
 // routes
 app.use("/api/products", productRouter)
+app.use("/cart", cartRouter)
 app.use("/user", userRouter)
+
 app.get("/", (req, res) => {
   res.send("Hello World")
 })
