@@ -11,6 +11,7 @@ const { connectDB } = require("./Database/ConnectDb")
 const productRouter = require("./Routes/product.routes")
 const userRouter = require("./Routes/auth.route")
 const cartRouter = require("./Routes/cart.route")
+const wishlistRouter = require("./Routes/wishlist.route")
 // middlewares
 dotenv.config()
 app.use(morgan("common"))
@@ -22,6 +23,7 @@ connectDB()
 // routes
 app.use("/api/products", productRouter)
 app.use("/cart", cartRouter)
+app.use("/wishlist", wishlistRouter)
 app.use("/user", userRouter)
 
 app.get("/", (req, res) => {
