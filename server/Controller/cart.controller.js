@@ -80,4 +80,32 @@ const addToCartUsingId = async (req, res) => {
   }
 }
 
-module.exports = { getCartByUserId, addToCartUsingId }
+const updateCartQuantity = async (req, res) => {
+  // payload will be like ➕ quantityValue ➖
+  // {
+  //     "quantityValue": 3
+  // }
+
+  try {
+    const { userId, productId } = req.params
+    const { quantityValue } = req.body
+    console.log("productId", productId)
+    console.log("quantityValue", quantityValue)
+    const cart = await Cart.findById(userId)
+    const findIndex = cart.cartItems.findIndex(
+      (item) => item.product == productId
+    )
+    console.log("findIndex", findIndex)
+    cart.cartItems[findIndex].quantity = quantityValue
+    await cart.save()
+    res.status(200).json({ success: true, message: "Cart updated", cart })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Cannot update cart",
+      errMessage: error.message,
+    })
+  }
+}
+
+module.exports = { getCartByUserId, addToCartUsingId, updateCartQuantity }
