@@ -12,6 +12,7 @@ const productRouter = require("./Routes/product.routes")
 const userRouter = require("./Routes/auth.route")
 const cartRouter = require("./Routes/cart.route")
 const wishlistRouter = require("./Routes/wishlist.route")
+const verifyAuth = require("./Middlewares/verifyAuth")
 // middlewares
 dotenv.config()
 app.use(morgan("common"))
@@ -22,12 +23,14 @@ const PORT = process.env.PORT || 8000
 connectDB()
 // routes
 app.use("/api/products", productRouter)
-app.use("/cart", cartRouter)
-app.use("/wishlist", wishlistRouter)
+app.use("/cart", verifyAuth, cartRouter)
+app.use("/wishlist", verifyAuth, wishlistRouter)
 app.use("/user", userRouter)
 
 app.get("/", (req, res) => {
-  res.send("Hello World")
+  res.send(
+    "Thanks for visiting go checkout the https://github.com/KuldeepSinghRathore"
+  )
 })
 app.use(notFound)
 app.use(errorHandler)
