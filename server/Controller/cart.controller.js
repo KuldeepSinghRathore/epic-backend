@@ -81,6 +81,7 @@ const addToCartUsingId = async (req, res) => {
 }
 
 const updateCartQuantity = async (req, res) => {
+  // route :/userId/:productId
   // payload will be like ➕ quantityValue ➖
   // {
   //     "quantityValue": 3
@@ -107,5 +108,30 @@ const updateCartQuantity = async (req, res) => {
     })
   }
 }
+const deleteCartItem = async (req, res) => {
+  try {
+    const { userId, productId } = req.params
+    const cart = await Cart.findById(userId)
+    const findIndex = cart.cartItems.findIndex(
+      (item) => item.product == productId
+    )
+    cart.cartItems[findIndex].remove()
 
-module.exports = { getCartByUserId, addToCartUsingId, updateCartQuantity }
+    await cart.save()
+    res.status(200).json({ success: true, message: "Cart item deleted", cart })
+  } catch (error) {
+    res
+      .status(400)
+      .json({
+        success: false,
+        message: "Cannot delete cart item",
+        errMessage: error.message,
+      })
+  }
+}
+module.exports = {
+  getCartByUserId,
+  addToCartUsingId,
+  updateCartQuantity,
+  deleteCartItem,
+}
