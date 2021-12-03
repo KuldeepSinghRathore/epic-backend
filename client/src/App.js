@@ -1,6 +1,7 @@
 import "./App.css"
 import { Navbar } from "./Components/Navbar/Navbar"
 import { useStateContext } from "./Context/useStateContext"
+import { Product } from "./Pages/Product"
 
 function App() {
   const { productData } = useStateContext()
@@ -8,8 +9,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-
-      <p>Learn React</p>
+      <Product />
     </div>
   )
 }
