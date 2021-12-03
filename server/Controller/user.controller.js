@@ -24,10 +24,6 @@ const loginUser = async (req, res) => {
       })
     }
     // comparing password
-    // let matchPass = await bcrypt.compare(
-    //   userFromBody.password,
-    //   userFromDb.password
-    // )
     if (!comparePassword(userFromBody, userFromDb)) {
       return res.status(401).json({
         success: false,
