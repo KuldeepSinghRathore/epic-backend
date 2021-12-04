@@ -16,10 +16,11 @@ export const cartReducer = (state, action) => {
         cart: state.cart.filter((item) => item._id !== action.payload),
       }
     case "INCREASE_QUANTITY":
+      console.log("IncQty", action.payload)
       return {
         ...state,
         cart: state.cart.map((item) => {
-          return item.product._id === action.payload
+          return item._id === action.payload
             ? { ...item, quantity: item.quantity + 1 }
             : item
         }),
@@ -28,7 +29,7 @@ export const cartReducer = (state, action) => {
       return {
         ...state,
         cart: state.cart.map((item) => {
-          return item.product._id === action.payload
+          return item._id === action.payload
             ? { ...item, quantity: item.quantity - 1 }
             : item
         }),

@@ -1,15 +1,23 @@
+import { Route, Routes } from "react-router-dom"
 import "./App.css"
 import { Navbar } from "./Components/Navbar/Navbar"
-import { useStateContext } from "./Context/useStateContext"
-import { Product } from "./Pages/Product"
+import { CartPage } from "./Pages/Cart/CartPage"
+import { Home } from "./Pages/Home/Home"
+// import { useStateContext } from "./Context/useStateContext"
+
+import { WishList } from "./Pages/WishList/WishList"
 
 function App() {
-  const { productData } = useStateContext()
-  console.log(productData)
+  // const { productData } = useStateContext()
+  // console.log(productData)
   return (
     <div className="App">
       <Navbar />
-      <Product />
+      <Routes>
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/wishlist" element={<WishList />} />
+      </Routes>
     </div>
   )
 }

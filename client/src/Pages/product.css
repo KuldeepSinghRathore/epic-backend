@@ -1,5 +1,5 @@
 .product-item{
-    border:2px solid red;
+    border:2px solid #1a1919 ;
     width: 220px;
     min-height: 180px;
     display: flex;
@@ -7,10 +7,13 @@
     justify-content: space-around;
         margin: 15px;
   position: relative;
+      border-radius: 5px;
+      padding: .625rem;
+
 }
 
 .product-item img{
-    max-width: 100%;
+    max-width: 75%;
     max-height: 100%;   
 }
 .product-item__image{
