@@ -8,3 +8,23 @@ export const getAllProducts = async () => {
     console.log(error)
   }
 }
+
+export const addToCartServer = async (productId, userId, token) => {
+  try {
+    const { status } = await axios.post(
+      `${API}/cart/${userId}`,
+      {
+        productId,
+        quantity: 1,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}

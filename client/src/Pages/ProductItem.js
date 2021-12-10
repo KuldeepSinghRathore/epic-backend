@@ -18,6 +18,9 @@ export const ProductItem = ({ item }) => {
     }
     return false
   }
+
+  // const addToCart = (item) => {
+
   // console.log("isAlreadyExist", isAlreadyExist(item._id, cartState.cart))
   return (
     <div className="product-item">
