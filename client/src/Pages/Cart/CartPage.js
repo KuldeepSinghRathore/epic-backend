@@ -1,7 +1,16 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../Context/useAuth"
 import { useCartContext } from "../../Context/useCartContext"
+import {
+  decreaseQuantityServer,
+  increaseQuantityServer,
+  removeFromCartServer,
+} from "../../Utils/netWorkCalls"
 import "./CartPage.css"
 export const CartPage = () => {
+  const navigate = useNavigate()
+  const { userId, token } = useAuth()
   const { cartState, cartDispatch } = useCartContext()
   console.log("cartState", cartState)
   const totalCart = cartState.cart.reduce(
@@ -14,7 +23,57 @@ export const CartPage = () => {
   )
   console.log("totalCart", totalCart)
   console.log("totalProductInCart", totalProductInCart)
+  const removeFromCart = async (productId, userId, token) => {
+    if (token) {
+      const status = await removeFromCartServer(productId, userId, token)
+      if (status === 200) {
+        cartDispatch({ type: "REMOVE_FROM_CART", payload: productId })
+      }
+    } else {
+      navigate("/login")
+    }
+  }
+  const increaseQuantity = async (productId, userId, token, item) => {
+    const quantity = item.quantity + 1
+    if (token) {
+      const status = await increaseQuantityServer(
+        productId,
+        userId,
+        token,
+        quantity
+      )
+      if (status === 200) {
+        cartDispatch({
+          type: "INCREASE_QUANTITY",
+          payload: productId,
+        })
+      }
+    } else {
+      navigate("/login")
+    }
+  }
+  const decreaseQuantity = async (productId, userId, token, item) => {
+    const quantity = item.quantity - 1
+    if (quantity > 0) {
+      if (token) {
+        const status = await decreaseQuantityServer(
+          productId,
+          userId,
 
+          token,
+          quantity
+        )
+        if (status === 200) {
+          cartDispatch({
+            type: "DECREASE_QUANTITY",
+            payload: productId,
+          })
+        }
+      } else {
+        navigate("/login")
+      }
+    }
+  }
   return (
     <>
       <span
@@ -33,6 +92,7 @@ export const CartPage = () => {
             {cartState.cart.length > 0 &&
               cartState.cart.map((item) => {
                 const { product, quantity } = item
+
                 console.log("itemImage", product.image)
                 return (
                   <div className="cart-container">
@@ -47,10 +107,7 @@ export const CartPage = () => {
                           {/* <p>{item.price}</p> */}
                           <button
                             onClick={() =>
-                              cartDispatch({
-                                type: "INCREASE_QUANTITY",
-                                payload: product._id,
-                              })
+                              increaseQuantity(product._id, userId, token, item)
                             }
                           >
                             +
@@ -58,10 +115,7 @@ export const CartPage = () => {
                           <span className="quantity">{quantity} </span>
                           <button
                             onClick={() =>
-                              cartDispatch({
-                                type: "DECREASE_QUANTITY",
-                                payload: product._id,
-                              })
+                              decreaseQuantity(product._id, userId, token, item)
                             }
                           >
                             -
@@ -72,10 +126,7 @@ export const CartPage = () => {
                       <div className="cartButtons">
                         <button
                           onClick={() =>
-                            cartDispatch({
-                              type: "REMOVE_FROM_CART",
-                              payload: product._id,
-                            })
+                            removeFromCart(product._id, userId, token)
                           }
                         >
                           REMOVE

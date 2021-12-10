@@ -3,7 +3,7 @@ import { FaRegHeart } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../Context/useAuth"
 import { useCartContext } from "../Context/useCartContext"
-import { addToCartServer } from "../Utils/netWorkCalls"
+import { addToCartServer, removeFromCartServer } from "../Utils/netWorkCalls"
 import "./product.css"
 export const ProductItem = ({ item }) => {
   const navigate = useNavigate()
