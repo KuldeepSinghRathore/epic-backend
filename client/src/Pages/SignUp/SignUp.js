@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import "../Login/form.css"
 const SignUp = () => {
   const [signUpDetails, setSignUpDetails] = useState({
     firstName: "",
@@ -7,6 +8,7 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   })
+  console.log(signUpDetails)
   const handleChange = (e) => {
     setSignUpDetails({
       ...signUpDetails,
@@ -15,7 +17,7 @@ const SignUp = () => {
   }
   return (
     <div className="user-form">
-      <p className="page-name">Login</p>
+      <p className="page-name">Register</p>
       <form onSubmit={(e) => e.preventDefault()}>
         <label>firstName:</label>
         <input
@@ -40,15 +42,24 @@ const SignUp = () => {
         />
         <label>Password:</label>
         <input
-          type="text"
+          type="password"
           name="password"
           value={signUpDetails.password}
           onChange={handleChange}
         />
-        <p>
-          new user ? <a href="/signup">Signup</a>
-        </p>
-        <input type="submit" value="Login" />
+        <label>Confirm Password:</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={signUpDetails.confirmPassword}
+          onChange={handleChange}
+        />
+
+        <input
+          type="submit"
+          value="SignUp"
+          disabled={signUpDetails.password !== signUpDetails.confirmPassword}
+        />
       </form>
     </div>
   )
