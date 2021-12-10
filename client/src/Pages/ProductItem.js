@@ -1,17 +1,28 @@
 import React from "react"
 import { FaRegHeart } from "react-icons/fa"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "../Context/useAuth"
 import { useCartContext } from "../Context/useCartContext"
+import { addToCartServer } from "../Utils/netWorkCalls"
 import "./product.css"
 export const ProductItem = ({ item }) => {
+  const navigate = useNavigate()
   const { cartDispatch, cartState } = useCartContext()
-  const { brand, name, price, image, inStock, fastDelivery } = item
-
+  const {
+    brand,
+    name,
+    price,
+    image,
+    inStock,
+    fastDelivery,
+    _id: productId,
+  } = item
+  const { userId, token } = useAuth()
   // function to check if already exist in cart
 
   const isAlreadyExist = (id, cartToCheck) => {
     // console.log("_id", id, "cart", cartToCheck)
-    const isExist = cartToCheck.findIndex((item) => item._id === id)
+    const isExist = cartToCheck.findIndex((item) => item.product._id === id)
     // console.log("isExist", isExist)
     if (isExist === -1) {
       return true
@@ -19,9 +30,17 @@ export const ProductItem = ({ item }) => {
     return false
   }
 
-  // const addToCart = (item) => {
+  const addToCart = async (productId, userId, token, item) => {
+    if (token) {
+      const status = await addToCartServer(productId, userId, token, item)
+      if (status === 200) {
+        cartDispatch({ type: "ADD_TO_CART", payload: item })
+      }
+    } else {
+      navigate("/login")
+    }
+  }
 
-  // console.log("isAlreadyExist", isAlreadyExist(item._id, cartState.cart))
   return (
     <div className="product-item">
       <div className="product-item__image">
@@ -39,11 +58,11 @@ export const ProductItem = ({ item }) => {
           {fastDelivery ? "Fast Delivery" : "No Fast Delivery"}
         </div>
         <div className="product-item__info__price">₹{price}</div>
-        {isAlreadyExist(item._id, cartState.cart) ? (
+        {isAlreadyExist(productId, cartState.cart) ? (
           <button
             className="product-item-toCart"
             disabled={!inStock}
-            onClick={() => cartDispatch({ type: "ADD_TO_CART", payload: item })}
+            onClick={() => addToCart(productId, userId, token, item)}
           >
             {inStock ? "Add To Cart" : "Out of Stock"}
           </button>

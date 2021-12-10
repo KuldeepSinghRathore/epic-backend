@@ -5,7 +5,7 @@ export const CartPage = () => {
   const { cartState, cartDispatch } = useCartContext()
   console.log("cartState", cartState)
   const totalCart = cartState.cart.reduce(
-    (acc, curr) => (acc = acc + curr.price * curr.quantity),
+    (acc, curr) => (acc = acc + curr.product.price * curr.quantity),
     0
   )
   const totalProductInCart = cartState.cart.reduce(
@@ -32,34 +32,35 @@ export const CartPage = () => {
           <div className="cartProducts">
             {cartState.cart.length > 0 &&
               cartState.cart.map((item) => {
-                console.log("item", item)
+                const { product, quantity } = item
+                console.log("itemImage", product.image)
                 return (
                   <div className="cart-container">
                     <div className="cartPage" key={item._id}>
                       <div className="cart-product">
                         <div className="img">
-                          <img src={item.image} alt={item.name} />
+                          <img src={product.image} alt={product.name} />
                         </div>
                         <div className="details">
-                          <p style={{ fontWeight: "bold" }}>{item.name}</p>
-                          <p>{item.brand}</p>
+                          <p style={{ fontWeight: "bold" }}>{product.name}</p>
+                          <p>{product.brand}</p>
                           {/* <p>{item.price}</p> */}
                           <button
                             onClick={() =>
                               cartDispatch({
                                 type: "INCREASE_QUANTITY",
-                                payload: item._id,
+                                payload: product._id,
                               })
                             }
                           >
                             +
                           </button>
-                          <span className="quantity">{item.quantity} </span>
+                          <span className="quantity">{quantity} </span>
                           <button
                             onClick={() =>
                               cartDispatch({
                                 type: "DECREASE_QUANTITY",
-                                payload: item._id,
+                                payload: product._id,
                               })
                             }
                           >
@@ -73,7 +74,7 @@ export const CartPage = () => {
                           onClick={() =>
                             cartDispatch({
                               type: "REMOVE_FROM_CART",
-                              payload: item._id,
+                              payload: product._id,
                             })
                           }
                         >
@@ -95,14 +96,21 @@ export const CartPage = () => {
             <hr />
             {cartState.cart.length > 0 &&
               cartState.cart.map((item) => {
+                const { product, quantity } = item
+                console.log(
+                  "itemforpriceDeatails",
+                  item,
+                  product.price,
+                  quantity
+                )
                 return (
                   <div className="bill">
                     <span>
-                      {item.quantity} * {item.name}{" "}
+                      {quantity} * {product.name}{" "}
                     </span>
 
                     <span className="totalPrice">
-                      {"  "} ₹ {item.quantity * item.price}
+                      {"  "} ₹ {quantity * product.price}
                     </span>
                   </div>
                 )

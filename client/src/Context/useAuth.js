@@ -4,8 +4,11 @@ export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isLogin, setIsLogin] = useState(false)
-  const [userId, setUserId] = useState(null)
-  const [token, setToken] = useState(null)
+  const { userId: savedUserId, token: savedToken } = JSON.parse(
+    localStorage.getItem("userInfo")
+  ) || { userId: null, token: null }
+  const [userId, setUserId] = useState(savedUserId)
+  const [token, setToken] = useState(savedToken)
   const setUpAuthHeaders = (token) => {
     if (token) {
       return (axios.defaults.headers.common["Authorization"] = token)
