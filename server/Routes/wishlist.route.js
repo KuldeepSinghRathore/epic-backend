@@ -1,15 +1,15 @@
 const {
-  getWishlistUsingId,
-  addToWishlistUsingId,
-  deleteFromWishlist,
+  getwishlistUsingId,
+  addTowishlistUsingId,
+  deleteFromwishlist,
 } = require("../Controller/wishlist.controller")
 
 const router = require("express").Router()
 
-router.route("/:userId").get(getWishlistUsingId)
+router.route("/:userId").get(getwishlistUsingId)
 router
   .route("/:userId/:productId")
-  .post(addToWishlistUsingId)
-  .delete(deleteFromWishlist)
+  .post(addTowishlistUsingId)
+  .delete(deleteFromwishlist)
 
 module.exports = router

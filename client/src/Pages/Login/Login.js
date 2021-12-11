@@ -1,12 +1,15 @@
 import axios from "axios"
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "../../Context/useAuth"
 import { useStateContext } from "../../Context/useStateContext"
 import { API } from "../../Utils/constants"
 import "./form.css"
 const Login = () => {
   const { dispatch } = useStateContext()
+  const { state } = useLocation()
+  // console.log("userPta", state?.from)
+  const navigate = useNavigate()
   const { token, setToken, setUserId, setIsLogin } = useAuth()
   const [loginDetails, setLoginDetails] = useState({
     email: "",
@@ -27,6 +30,7 @@ const Login = () => {
           data: { token, userId },
           status,
         } = await axios.post(`${API}/user/login`, loginDetails)
+        const userPath = state?.from ? state.from : "/login"
         if (status === 200) {
           setIsLogin(true)
           localStorage.setItem("userData", JSON.stringify({ token, userId }))
@@ -34,6 +38,7 @@ const Login = () => {
 
           setToken(token)
           setUserId(userId)
+          navigate(userPath)
         }
         const getCartFromServer = await axios.get(`${API}/cart/${userId}`, {
           headers: {
@@ -53,7 +58,7 @@ const Login = () => {
       console.log(error)
     }
   }
-  console.log(loginDetails)
+  // console.log(loginDetails)
   return (
     <>
       <div className="user-form">

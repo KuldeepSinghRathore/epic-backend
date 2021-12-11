@@ -1,6 +1,6 @@
 const { Wishlist } = require("../Models/wishlist.model")
 
-const getWishlistUsingId = async (req, res) => {
+const getwishlistUsingId = async (req, res) => {
   try {
     const { userId } = req.params
     console.log(userId)
@@ -10,7 +10,7 @@ const getWishlistUsingId = async (req, res) => {
     if (!wishlist) {
       return res.status(404).json({
         success: false,
-        message: "Wishlist not found",
+        message: "wishlist not found",
         wishlist: {
           wishlistItems: [],
         },
@@ -18,7 +18,7 @@ const getWishlistUsingId = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      message: "Wishlist found",
+      message: "wishlist found",
       wishlist,
     })
   } catch (error) {
@@ -31,7 +31,7 @@ const getWishlistUsingId = async (req, res) => {
   }
 }
 
-const addToWishlistUsingId = async (req, res) => {
+const addTowishlistUsingId = async (req, res) => {
   try {
     const { userId, productId } = req.params
     const wishlist = await Wishlist.findById(userId)
@@ -61,7 +61,7 @@ const addToWishlistUsingId = async (req, res) => {
     })
   }
 }
-const deleteFromWishlist = async (req, res) => {
+const deleteFromwishlist = async (req, res) => {
   try {
     const { userId, productId } = req.params
     const wishlist = await Wishlist.findById(userId)
@@ -86,7 +86,7 @@ const deleteFromWishlist = async (req, res) => {
   }
 }
 module.exports = {
-  getWishlistUsingId,
-  addToWishlistUsingId,
-  deleteFromWishlist,
+  getwishlistUsingId,
+  addTowishlistUsingId,
+  deleteFromwishlist,
 }

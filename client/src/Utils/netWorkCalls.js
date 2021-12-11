@@ -90,3 +90,53 @@ export const decreaseQuantityServer = async (
     console.log(error)
   }
 }
+
+// wishlist
+export const getwishlistServer = async (userId, token) => {
+  try {
+    const response = await axios.get(`${API}/wishlist/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const addTowishlistServer = async (productId, userId, token) => {
+  try {
+    const { status } = await axios.post(
+      `${API}/wishlist/${userId}/${productId}`,
+      {
+        productId,
+      },
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const removeFromwishlistServer = async (productId, userId, token) => {
+  try {
+    const { status } = await axios.delete(
+      `${API}/wishlist/${userId}/${productId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    return status
+  } catch (error) {
+    console.log(error)
+  }
+}

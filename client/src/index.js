@@ -6,15 +6,18 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { StateProvider } from "./Context/useStateContext"
 import { CartProvider } from "./Context/useCartContext"
 import { AuthProvider } from "./Context/useAuth"
+import { WishlistProvider } from "./Context/useWishListContext"
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
       <StateProvider>
         <CartProvider>
-          <Router>
-            <App />
-          </Router>
+          <WishlistProvider>
+            <Router>
+              <App />
+            </Router>
+          </WishlistProvider>
         </CartProvider>
       </StateProvider>
     </AuthProvider>

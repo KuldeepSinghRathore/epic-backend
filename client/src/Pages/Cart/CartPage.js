@@ -131,7 +131,7 @@ export const CartPage = () => {
                         >
                           REMOVE
                         </button>
-                        <button>MOVE To Wishlist</button>
+                        <button>MOVE To wishlist</button>
                       </div>
                     </div>
                   </div>
