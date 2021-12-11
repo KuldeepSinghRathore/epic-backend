@@ -4,6 +4,11 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../Context/useAuth"
 import { useCartContext } from "../Context/useCartContext"
 import { useWishListContext } from "../Context/useWishListContext"
+import {
+  addToCart,
+  isAlreadyExist,
+  removeFromwishlist,
+} from "../Utils/constants"
 
 import {
   addToCartServer,
@@ -28,28 +33,16 @@ export const ProductItem = ({ item }) => {
   const { userId, token } = useAuth()
   // function to check if already exist in cart
 
-  const isAlreadyExist = (id, cartToCheck) => {
-    // console.log("_id", id, "cart", cartToCheck)
-
-    const isExist = cartToCheck.findIndex((item) => item.product._id === id)
-    if (isExist === -1) {
-      return false
-    }
-
-    // console.log("isExist", isExist)
-    return true
-  }
-
-  const addToCart = async (productId, userId, token, item) => {
-    if (token) {
-      const status = await addToCartServer(productId, userId, token, item)
-      if (status === 200) {
-        cartDispatch({ type: "ADD_TO_CART", payload: item })
-      }
-    } else {
-      navigate("/login")
-    }
-  }
+  // const addToCart = async (productId, userId, token, item) => {
+  //   if (token) {
+  //     const status = await addToCartServer(productId, userId, token, item)
+  //     if (status === 200) {
+  //       cartDispatch({ type: "ADD_TO_CART", payload: item })
+  //     }
+  //   } else {
+  //     navigate("/login")
+  //   }
+  // }
 
   const addTowishlist = async (productId, userId, token, item) => {
     if (token) {
@@ -64,19 +57,6 @@ export const ProductItem = ({ item }) => {
       navigate("/login")
     }
   }
-  const removeFromwishlist = async (productId, userId, token) => {
-    if (token) {
-      const status = await removeFromwishlistServer(productId, userId, token)
-      if (status === 200) {
-        wishlistDispatch({
-          type: "REMOVE_FROM_WISHLIST",
-          payload: productId,
-        })
-      }
-    } else {
-      navigate("/login")
-    }
-  }
 
   return (
     <div className="product-item">
@@ -85,7 +65,15 @@ export const ProductItem = ({ item }) => {
         {isAlreadyExist(productId, wishlistState.wishlist) ? (
           <FaHeart
             className="wishlist-icon"
-            onClick={() => removeFromwishlist(productId, userId, token)}
+            onClick={() =>
+              removeFromwishlist(
+                productId,
+                userId,
+                token,
+                wishlistDispatch,
+                navigate
+              )
+            }
           />
         ) : (
           <FaRegHeart
@@ -113,7 +101,9 @@ export const ProductItem = ({ item }) => {
           <button
             className="product-item-toCart"
             disabled={!inStock}
-            onClick={() => addToCart(productId, userId, token, item)}
+            onClick={() =>
+              addToCart(productId, userId, token, item, cartDispatch, navigate)
+            }
           >
             {inStock ? "Add To Cart" : "Out of Stock"}
           </button>
