@@ -6,6 +6,7 @@ import { useCartContext } from "../Context/useCartContext"
 import { useWishListContext } from "../Context/useWishListContext"
 import {
   addToCart,
+  addTowishlist,
   isAlreadyExist,
   removeFromwishlist,
 } from "../Utils/constants"
@@ -44,19 +45,19 @@ export const ProductItem = ({ item }) => {
   //   }
   // }
 
-  const addTowishlist = async (productId, userId, token, item) => {
-    if (token) {
-      const status = await addTowishlistServer(productId, userId, token, item)
-      if (status === 200) {
-        wishlistDispatch({
-          type: "ADD_TO_WISHLIST",
-          payload: item,
-        })
-      }
-    } else {
-      navigate("/login")
-    }
-  }
+  // const addTowishlist = async (productId, userId, token, item) => {
+  //   if (token) {
+  //     const status = await addTowishlistServer(productId, userId, token, item)
+  //     if (status === 200) {
+  //       wishlistDispatch({
+  //         type: "ADD_TO_WISHLIST",
+  //         payload: item,
+  //       })
+  //     }
+  //   } else {
+  //     navigate("/login")
+  //   }
+  // }
 
   return (
     <div className="product-item">
@@ -78,7 +79,16 @@ export const ProductItem = ({ item }) => {
         ) : (
           <FaRegHeart
             className="wishlist-icon"
-            onClick={() => addTowishlist(productId, userId, token, item)}
+            onClick={() =>
+              addTowishlist(
+                productId,
+                userId,
+                token,
+                item,
+                wishlistDispatch,
+                navigate
+              )
+            }
           />
         )}
       </div>

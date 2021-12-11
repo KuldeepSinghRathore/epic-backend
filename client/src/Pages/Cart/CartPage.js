@@ -2,6 +2,12 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../Context/useAuth"
 import { useCartContext } from "../../Context/useCartContext"
+import { useWishListContext } from "../../Context/useWishListContext"
+import {
+  addTowishlist,
+  isAlreadyExist,
+  removeFromCart,
+} from "../../Utils/constants"
 import {
   decreaseQuantityServer,
   increaseQuantityServer,
@@ -12,6 +18,7 @@ export const CartPage = () => {
   const navigate = useNavigate()
   const { userId, token } = useAuth()
   const { cartState, cartDispatch } = useCartContext()
+  const { wishlistState, wishlistDispatch } = useWishListContext()
   console.log("cartState", cartState)
   const totalCart = cartState.cart.reduce(
     (acc, curr) => (acc = acc + curr.product.price * curr.quantity),
@@ -23,16 +30,16 @@ export const CartPage = () => {
   )
   console.log("totalCart", totalCart)
   console.log("totalProductInCart", totalProductInCart)
-  const removeFromCart = async (productId, userId, token) => {
-    if (token) {
-      const status = await removeFromCartServer(productId, userId, token)
-      if (status === 200) {
-        cartDispatch({ type: "REMOVE_FROM_CART", payload: productId })
-      }
-    } else {
-      navigate("/login")
-    }
-  }
+  // const removeFromCart = async (productId, userId, token) => {
+  //   if (token) {
+  //     const status = await removeFromCartServer(productId, userId, token)
+  //     if (status === 200) {
+  //       cartDispatch({ type: "REMOVE_FROM_CART", payload: productId })
+  //     }
+  //   } else {
+  //     navigate("/login")
+  //   }
+  // }
   const increaseQuantity = async (productId, userId, token, item) => {
     const quantity = item.quantity + 1
     if (token) {
@@ -126,12 +133,52 @@ export const CartPage = () => {
                       <div className="cartButtons">
                         <button
                           onClick={() =>
-                            removeFromCart(product._id, userId, token)
+                            removeFromCart(
+                              product._id,
+                              userId,
+                              token,
+                              cartDispatch,
+                              navigate
+                            )
                           }
                         >
                           REMOVE
                         </button>
-                        <button>MOVE To wishlist</button>
+                        <button
+                          onClick={() => {
+                            const isExist = isAlreadyExist(
+                              product._id,
+                              wishlistState.wishlist
+                            )
+                            if (isExist) {
+                              removeFromCart(
+                                product._id,
+                                userId,
+                                token,
+                                cartDispatch,
+                                navigate
+                              )
+                            } else {
+                              addTowishlist(
+                                product._id,
+                                userId,
+                                token,
+                                item.product,
+                                wishlistDispatch,
+                                navigate
+                              )
+                              removeFromCart(
+                                product._id,
+                                userId,
+                                token,
+                                cartDispatch,
+                                navigate
+                              )
+                            }
+                          }}
+                        >
+                          MOVE To wishlist
+                        </button>
                       </div>
                     </div>
                   </div>
