@@ -6,6 +6,15 @@ import {
 } from "./netWorkCalls"
 
 export const API = "http://localhost:8000"
+
+export const initialState = {
+  cart: [],
+  wishlist: [],
+  sortBy: null,
+  filter: false,
+  fastDelivery: false,
+}
+
 export const isAlreadyExist = (id, cartToCheck) => {
   // console.log("_id", id, "cart", cartToCheck)
 
@@ -88,5 +97,18 @@ export const addTowishlist = async (
     }
   } else {
     navigate("/login")
+  }
+}
+
+// Sorting
+export const sortItems = (arrToSort, sortType) => {
+  if (sortType === "LOW_TO_HIGH") {
+    return arrToSort.sort((a, b) => a.price - b.price)
+  }
+  if (sortType === "HIGH_TO_LOW") {
+    return arrToSort.sort((a, b) => b.price - a.price)
+  }
+  if (sortType === null) {
+    return arrToSort
   }
 }

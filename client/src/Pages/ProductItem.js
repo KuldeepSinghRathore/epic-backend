@@ -11,11 +11,6 @@ import {
   removeFromwishlist,
 } from "../Utils/constants"
 
-import {
-  addToCartServer,
-  addTowishlistServer,
-  removeFromwishlistServer,
-} from "../Utils/netWorkCalls"
 import "./product.css"
 export const ProductItem = ({ item }) => {
   const navigate = useNavigate()
@@ -32,6 +27,7 @@ export const ProductItem = ({ item }) => {
   } = item
   // console.log("wishlistState", wishlistState)
   const { userId, token } = useAuth()
+  console.log("LogOut", userId, token)
   // function to check if already exist in cart
 
   // const addToCart = async (productId, userId, token, item) => {
@@ -60,7 +56,7 @@ export const ProductItem = ({ item }) => {
   // }
 
   return (
-    <div className="product-item">
+    <div className="product-item" key={productId}>
       <div className="product-item__image">
         <img src={image} alt={name} />
         {isAlreadyExist(productId, wishlistState.wishlist) ? (

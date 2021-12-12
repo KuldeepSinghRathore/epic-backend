@@ -11,11 +11,11 @@ import {
 import {
   decreaseQuantityServer,
   increaseQuantityServer,
-  removeFromCartServer,
 } from "../../Utils/netWorkCalls"
 import "./CartPage.css"
 export const CartPage = () => {
   const navigate = useNavigate()
+
   const { userId, token } = useAuth()
   const { cartState, cartDispatch } = useCartContext()
   const { wishlistState, wishlistDispatch } = useWishListContext()

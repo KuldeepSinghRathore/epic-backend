@@ -7,10 +7,10 @@ import { API } from "../../Utils/constants"
 import "./form.css"
 const Login = () => {
   const { dispatch } = useStateContext()
-  const { state } = useLocation()
-  // console.log("userPta", state?.from)
+  const location = useLocation()
+
   const navigate = useNavigate()
-  const { token, setToken, setUserId, setIsLogin } = useAuth()
+  const { setToken, setUserId, setIsLogin, isLogin } = useAuth()
   const [loginDetails, setLoginDetails] = useState({
     email: "",
     password: "",
@@ -30,15 +30,15 @@ const Login = () => {
           data: { token, userId },
           status,
         } = await axios.post(`${API}/user/login`, loginDetails)
-        const userPath = state?.from ? state.from : "/login"
+        const from = location.state?.from?.pathname || "/"
         if (status === 200) {
           setIsLogin(true)
-          localStorage.setItem("userData", JSON.stringify({ token, userId }))
+          localStorage.setItem("userInfo", JSON.stringify({ token, userId }))
           setError(false)
 
           setToken(token)
           setUserId(userId)
-          navigate(userPath)
+          navigate(from, { replace: true })
         }
         const getCartFromServer = await axios.get(`${API}/cart/${userId}`, {
           headers: {
@@ -58,7 +58,7 @@ const Login = () => {
       console.log(error)
     }
   }
-  // console.log(loginDetails)
+  console.log("isLoginFROm Login", isLogin)
   return (
     <>
       <div className="user-form">

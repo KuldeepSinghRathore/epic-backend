@@ -3,9 +3,6 @@
    align-items: center;
    
 }
-.navbar{
-    height: 70px;
-}
 .nav-logo{
     width: 2rem;
     /* width: 2.5rem; */
@@ -20,11 +17,6 @@ a{
     color: aliceblue;
 }
 
-
-.navbar{
-
-    border: 2px solid red;
-}
 .nav-container{
     display: flex;
     align-items: center;
@@ -35,17 +27,34 @@ a{
     width: 30%;
     justify-content: space-around;
     margin-right: 1.5rem;
-
+    
 }
 .nav-list-icons a{
     color: aliceblue;
+}
+.navbar{
+    height: 70px;
+    /* position: fixed; */
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    
 }
 @media only screen and (min-width: 1200px) {
     .nav-list-icons{
         width: 20%;
         
     }
+    
 }
+@media only screen and (min-width: 784px) {
+    .navbar{
+        /* position: fixed;
+        z-index: 10; */
+    }
+}
+
 @media only screen and (max-width: 280px) {
     svg{
         width: 20px;

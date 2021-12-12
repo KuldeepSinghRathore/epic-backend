@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       return (axios.defaults.headers.common["Authorization"] = token)
     }
+
     delete axios.defaults.headers.common["Authorization"]
   }
   setUpAuthHeaders(token)

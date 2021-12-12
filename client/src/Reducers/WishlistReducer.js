@@ -25,6 +25,11 @@ export const wishlistReducer = (state, action) => {
           (item) => item.product._id !== action.payload
         ),
       }
+    case "CLEAR_SESSION":
+      return {
+        ...state,
+        wishlist: [],
+      }
     default:
       return state
   }

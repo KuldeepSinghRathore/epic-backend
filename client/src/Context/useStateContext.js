@@ -6,6 +6,7 @@ import {
   useState,
 } from "react"
 import { reducer } from "../Reducers/StateReducer"
+import { initialState } from "../Utils/constants"
 import { getAllProducts } from "../Utils/netWorkCalls"
 export const StateContext = createContext()
 
@@ -29,13 +30,7 @@ export const StateProvider = ({ children }) => {
     })()
   }, [])
 
-  const [state, dispatch] = useReducer(reducer, {
-    cart: [],
-    wishlist: [],
-    sortBy: null,
-    filter: false,
-    fastDelivery: false,
-  })
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
     <StateContext.Provider

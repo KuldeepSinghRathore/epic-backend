@@ -1,10 +1,8 @@
 import { createContext, useContext, useEffect, useReducer } from "react"
 import { wishlistReducer } from "../Reducers/WishlistReducer"
-import { API } from "../Utils/constants"
 import { getwishlistServer } from "../Utils/netWorkCalls"
 import { useAuth } from "./useAuth"
 
-import axios from "axios"
 export const WishlistContext = createContext()
 
 export const WishlistProvider = ({ children }) => {
