@@ -5,7 +5,10 @@ import { useAuth } from "../../Context/useAuth"
 import { useStateContext } from "../../Context/useStateContext"
 import { API } from "../../Utils/constants"
 import "./form.css"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 const Login = () => {
+  toast.configure()
   const { dispatch } = useStateContext()
   const location = useLocation()
 
@@ -24,13 +27,24 @@ const Login = () => {
   }
   const handleLogin = async (e) => {
     e.preventDefault()
+    toast("Logging in...")
     try {
       if (loginDetails.email && loginDetails.password) {
+        toast("🦄 Wow so easy!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
         const {
           data: { token, userId },
           status,
         } = await axios.post(`${API}/user/login`, loginDetails)
         const from = location.state?.from?.pathname || "/"
+
         if (status === 200) {
           setIsLogin(true)
           localStorage.setItem("userInfo", JSON.stringify({ token, userId }))
@@ -61,6 +75,17 @@ const Login = () => {
   console.log("isLoginFROm Login", isLogin)
   return (
     <>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="user-form">
         <p className="page-name">Login</p>
         <form onSubmit={handleLogin}>

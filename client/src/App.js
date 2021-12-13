@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import "./App.css"
 import { Navbar } from "./Components/Navbar/Navbar"
 import { CartPage } from "./Pages/Cart/CartPage"
@@ -10,8 +10,10 @@ import SignUp from "./Pages/SignUp/SignUp"
 import { Wishlist } from "./Pages/WishList/Wishlist"
 
 import { PrivateRoutes } from "./Utils/PrivateRoutes"
-
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 function App() {
+  toast.configure()
   return (
     <>
       <div className="App">

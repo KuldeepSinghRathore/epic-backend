@@ -28,6 +28,7 @@ export const ProductItem = ({ item }) => {
   // console.log("wishlistState", wishlistState)
   const { userId, token } = useAuth()
   console.log("LogOut", userId, token)
+
   // function to check if already exist in cart
 
   // const addToCart = async (productId, userId, token, item) => {

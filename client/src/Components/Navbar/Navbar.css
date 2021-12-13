@@ -36,9 +36,9 @@ a{
     height: 70px;
     /* position: fixed; */
     width: 100%;
-    position: sticky;
+    /* position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 10; */
     
 }
 @media only screen and (min-width: 1200px) {
@@ -50,8 +50,9 @@ a{
 }
 @media only screen and (min-width: 784px) {
     .navbar{
-        /* position: fixed;
-        z-index: 10; */
+       position: sticky;
+    top: 0;
+    z-index: 10;
     }
 }
 

@@ -4,7 +4,8 @@ import {
   removeFromCartServer,
   removeFromwishlistServer,
 } from "./netWorkCalls"
-
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 export const API = "http://localhost:8000"
 
 export const initialState = {
@@ -53,13 +54,19 @@ export const addToCart = async (
   dispatch,
   navigate
 ) => {
-  if (token) {
-    const status = await addToCartServer(productId, userId, token, item)
-    if (status === 200) {
-      dispatch({ type: "ADD_TO_CART", payload: item })
+  try {
+    if (token) {
+      const status = await addToCartServer(productId, userId, token, item)
+      if (status === 200) {
+        dispatch({ type: "ADD_TO_CART", payload: item })
+        toast.success("Added to cart")
+      } else {
+        navigate("/login")
+      }
     }
-  } else {
-    navigate("/login")
+  } catch (error) {
+    toast.error("Something went wrong")
+    console.log(error)
   }
 }
 export const removeFromCart = async (

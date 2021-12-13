@@ -5,7 +5,7 @@ import { useCartContext } from "../../Context/useCartContext"
 import { useStateContext } from "../../Context/useStateContext"
 import { useWishListContext } from "../../Context/useWishListContext"
 export const LogOut = () => {
-  const { setUserId, setToken, userId, token, setIsLogin } = useAuth()
+  const { setUserId, setToken, setIsLogin } = useAuth()
   const { dispatch } = useStateContext()
   const { cartDispatch } = useCartContext()
   const { wishlistDispatch } = useWishListContext()
