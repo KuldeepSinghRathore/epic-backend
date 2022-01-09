@@ -12,6 +12,8 @@ import { Wishlist } from "./Pages/WishList/Wishlist"
 import { PrivateRoutes } from "./Utils/PrivateRoutes"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import { Product } from "./Pages/Product"
+import ProductPage from "./Pages/ProductPage/ProductPage"
 function App() {
   toast.configure()
   return (
@@ -24,6 +26,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/product" element={<ProductPage />} />
 
           <Route
             path="/cart"

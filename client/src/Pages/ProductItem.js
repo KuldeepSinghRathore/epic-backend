@@ -101,8 +101,12 @@ export const ProductItem = ({ item }) => {
         </div>
         <div className="product-item__info__price">₹{price}</div>
         {isAlreadyExist(productId, cartState.cart) ? (
-          <button className="product-item-toCart" disabled={!inStock}>
-            <Link to="/cart">Go to Cart</Link>
+          <button
+            className="product-item-toCart"
+            disabled={!inStock}
+            onClick={() => navigate("/cart")}
+          >
+            Go to Cart
           </button>
         ) : (
           <button

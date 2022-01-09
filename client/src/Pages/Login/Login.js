@@ -8,7 +8,6 @@ import "./form.css"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 const Login = () => {
-  toast.configure()
   const { dispatch } = useStateContext()
   const location = useLocation()
 
@@ -27,7 +26,7 @@ const Login = () => {
   }
   const handleLogin = async (e) => {
     e.preventDefault()
-    toast("Logging in...")
+    toast.info("Logging in...")
     try {
       if (loginDetails.email && loginDetails.password) {
         toast("🦄 Wow so easy!", {
