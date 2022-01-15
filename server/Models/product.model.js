@@ -4,27 +4,47 @@ const ProductSchema = new Schema(
   {
     name: {
       type: String,
+      trim: true,
       required: "Please enter the product name",
     },
-    brand: {
+    description: {
       type: String,
-      required: "Please enter the brand name",
+      trim: true,
+
+      required: "Please enter the product description",
     },
     price: {
       type: Number,
       required: "Please enter price",
+      maxlength: [10, "Price should be less than 10 digits"],
+      default: 0.0,
     },
-    fastDelivery: {
-      type: Boolean,
-      required: "Please enter whether fast delivery is available or not",
+    gender: {
+      type: String,
+      required: "Please enter the gender",
+    },
+    type: {
+      type: String,
+      required: "Please enter the type of product",
+    },
+    image: {
+      type: String,
+      required: "Please enter the url of the image",
+    },
+    category: {
+      type: String,
+      required: "Please enter the category of the product",
+      enum: {
+        values: ["clothes", "accessories"],
+      },
     },
     inStock: {
       type: Boolean,
       required: "Please enter whether the product is in stock or not",
     },
-    image: {
-      type: String,
-      required: "Please enter the url of the image",
+    fastDelivery: {
+      type: Boolean,
+      required: "Please enter whether fast delivery is available or not",
     },
   },
   {

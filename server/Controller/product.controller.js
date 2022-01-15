@@ -1,6 +1,6 @@
-const { productData } = require("../Database/data")
-const { Product } = require("../models/product.model")
+const { Product } = require("../Models/product.model")
 const { extend } = require("lodash")
+const { productData } = require("../Database/data")
 const saveProductToDb = (data) => {
   productData.forEach(async (element) => {
     const product = new Product(element)

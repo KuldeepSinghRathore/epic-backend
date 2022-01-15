@@ -17,14 +17,15 @@ const loginUser = async (req, res) => {
     // finding user by email
     const userFromDb = await findUserByEmail(userFromBody.email)
     console.log(userFromDb)
-    if (userFromBody === null) {
+    if (!userFromBody.password) {
       return res.status(401).json({
         success: false,
         message: "No User Found Please SignUp",
       })
     }
     // comparing password
-    if (!comparePassword(userFromBody, userFromDb)) {
+    const matchPass = await comparePassword(userFromBody, userFromDb)
+    if (!matchPass) {
       return res.status(401).json({
         success: false,
         message: "Password is incorrect",

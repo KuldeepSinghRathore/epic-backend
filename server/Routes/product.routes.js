@@ -11,7 +11,7 @@ const {
 const { productData } = require("../Database/data")
 
 // run Once to save product to db
-//* saveProductToDb(productData)
+// saveProductToDb(productData)
 
 // @route   GET api/product/
 // @desc    Get all products
