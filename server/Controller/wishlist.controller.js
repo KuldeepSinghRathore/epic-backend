@@ -3,7 +3,6 @@ const { Wishlist } = require("../Models/wishlist.model")
 const getwishlistUsingId = async (req, res) => {
   try {
     const { userId } = req.params
-    console.log(userId)
     const wishlist = await Wishlist.findById(userId).populate(
       "wishlistItems.product"
     )

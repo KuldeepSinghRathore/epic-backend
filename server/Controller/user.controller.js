@@ -13,10 +13,8 @@ const comparePassword = async (fromBody, fromDb) => {
 const loginUser = async (req, res) => {
   try {
     const userFromBody = req.body
-    console.log(userFromBody)
     // finding user by email
     const userFromDb = await findUserByEmail(userFromBody.email)
-    console.log(userFromDb)
     if (!userFromBody.password) {
       return res.status(401).json({
         success: false,

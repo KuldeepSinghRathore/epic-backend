@@ -26,7 +26,6 @@ const addNewProduct = async (req, res) => {
   try {
     const product = new Product(req.body)
     const savedProduct = await product.save()
-    console.log(savedProduct)
     res.status(200).json({ success: true, savedProduct })
   } catch (error) {
     console.log(error)
@@ -40,7 +39,6 @@ const addNewProduct = async (req, res) => {
 const getProductByParam = async (req, res, next, id) => {
   try {
     const product = await Product.findById(id)
-    console.log("productParam", product)
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -84,7 +82,6 @@ const deleteProductById = async (req, res) => {
     let { product } = req
     product = await product.remove()
     product.deleted = true
-    console.log(product)
     res.status(200).json({ success: true, product })
   } catch (error) {
     console.log(error)

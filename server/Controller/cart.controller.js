@@ -5,9 +5,7 @@ const getCartByUserId = async (req, res) => {
     let { userId } = req.params
 
     let cart = await Cart.findById(userId).populate("cartItems.product")
-    // console.log("cart", cart) cart null
     if (!cart) {
-      console.log("cart not found")
       return res.json({
         success: false,
         message: "Cart not found",
@@ -39,9 +37,7 @@ const addToCartUsingId = async (req, res) => {
     //     "productId": "6164720147380b0456b8eb8c",
     //  "quantity": 1
     // } */
-    console.log("product", userId)
     let cart = await Cart.findById(userId)
-    console.log("cart", cart)
     if (!cart) {
       let cart = new Cart({
         _id: userId,
@@ -90,13 +86,10 @@ const updateCartQuantity = async (req, res) => {
   try {
     const { userId, productId } = req.params
     const { quantityValue } = req.body
-    console.log("productId", productId)
-    console.log("quantityValue", quantityValue)
     const cart = await Cart.findById(userId)
     const findIndex = cart.cartItems.findIndex(
       (item) => item.product == productId
     )
-    console.log("findIndex", findIndex)
     cart.cartItems[findIndex].quantity = quantityValue
     await cart.save()
     res.status(200).json({ success: true, message: "Cart updated", cart })
@@ -120,13 +113,11 @@ const deleteCartItem = async (req, res) => {
     await cart.save()
     res.status(200).json({ success: true, message: "Cart item deleted", cart })
   } catch (error) {
-    res
-      .status(400)
-      .json({
-        success: false,
-        message: "Cannot delete cart item",
-        errMessage: error.message,
-      })
+    res.status(400).json({
+      success: false,
+      message: "Cannot delete cart item",
+      errMessage: error.message,
+    })
   }
 }
 module.exports = {
