@@ -14,6 +14,7 @@ const loginUser = async (req, res) => {
   try {
     const userFromBody = req.body
     // finding user by email
+    const { email, password } = userFromBody
     if (!userFromBody?.email || !userFromBody?.password) {
       return res.status(400).json({
         success: false,
@@ -59,6 +60,26 @@ const signupUser = async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body
     // checking if user already exists
+
+    if (!firstName)
+      return res
+        .status(400)
+        .json({ success: false, message: "FirstName is Required" })
+    if (!lastName)
+      return res
+        .status(400)
+        .json({ success: false, message: "LastName is Required" })
+    if (!email)
+      return res
+        .status(400)
+        .json({ success: false, message: "Email is Required" })
+    if (!password || password.length < 6 || password.length > 64)
+      return res.status(400).json({
+        success: false,
+        message:
+          "password is required and it should be 6 character long or less then 64 character",
+      })
+
     const userFromDb = await findUserByEmail(email)
     if (userFromDb) {
       return res.status(403).json({

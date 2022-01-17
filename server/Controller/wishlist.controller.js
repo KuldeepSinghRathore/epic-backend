@@ -7,7 +7,7 @@ const getwishlistUsingId = async (req, res) => {
       "wishlistItems.product"
     )
     if (!wishlist) {
-      return res.status(404).json({
+      return res.status(204).json({
         success: false,
         message: "wishlist not found",
         wishlist: {
