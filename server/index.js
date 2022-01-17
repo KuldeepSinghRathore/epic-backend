@@ -13,6 +13,7 @@ const userRouter = require("./Routes/auth.route")
 const cartRouter = require("./Routes/cart.route")
 const wishlistRouter = require("./Routes/wishlist.route")
 const verifyAuth = require("./Middlewares/verifyAuth")
+const addressRouter = require("./Routes/address.route")
 // middlewares
 dotenv.config()
 app.use(morgan("common"))
@@ -25,6 +26,7 @@ connectDB()
 app.use("/api/products", productRouter)
 app.use("/cart", verifyAuth, cartRouter)
 app.use("/wishlist", verifyAuth, wishlistRouter)
+app.use("/address", verifyAuth, addressRouter)
 app.use("/user", userRouter)
 
 app.get("/", (req, res) => {

@@ -45,6 +45,7 @@ const getProductByParam = async (req, res, next, id) => {
         message: "Error Fetching Product, it doesn't exist ",
       })
     }
+
     req.product = product
     next()
   } catch (error) {

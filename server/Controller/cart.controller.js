@@ -105,9 +105,9 @@ const deleteCartItem = async (req, res) => {
   try {
     const { userId, productId } = req.params
     const cart = await Cart.findById(userId)
-    const findIndex = cart.cartItems.findIndex(
-      (item) => item.product == productId
-    )
+    const findIndex = cart.cartItems.findIndex((item) => {
+      return item.product.toString() === productId.toString()
+    })
     cart.cartItems[findIndex].remove()
 
     await cart.save()
@@ -120,9 +120,27 @@ const deleteCartItem = async (req, res) => {
     })
   }
 }
+
+const delteCart = async (req, res) => {
+  try {
+    const { userId } = req
+    const cart = await Cart.findById(userId)
+    cart.cartItems = []
+    await cart.save()
+    res.status(200).json({ success: true, message: "Cart deleted", cart })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Cannot delete cart",
+      errMessage: error.message,
+    })
+  }
+}
+
 module.exports = {
   getCartByUserId,
   addToCartUsingId,
   updateCartQuantity,
   deleteCartItem,
+  delteCart,
 }
