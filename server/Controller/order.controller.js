@@ -28,7 +28,9 @@ const addToOrders = async (req, res) => {
 const getUserOrders = async (req, res) => {
   const { userId } = req
   try {
-    const orders = await Order.find({ userId }).populate("orderItems.product")
+    const orders = await Order.find({ userId })
+      .sort({ createdAt: -1 })
+      .populate("orderItems.product")
     if (!orders) {
       return res
         .status(404)
