@@ -15,7 +15,7 @@ const loginUser = async (req, res) => {
     const userFromBody = req.body
     // finding user by email
     const { email, password } = userFromBody
-    if (!userFromBody?.email || !userFromBody?.password) {
+    if (!userFromBody.email || !userFromBody.password) {
       return res.status(400).json({
         success: false,
         message: "Email and password are required",
